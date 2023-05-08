@@ -27,6 +27,7 @@ export class DynamicQuestionComponent implements OnInit {
   public formControl!: FormControl;
 
   @Input() question!: QuestionModel;
+  @Input() prefilledAnswer?: string | string[];
   @Output() update: EventEmitter<{
     questionId: number;
     answer: string | string[];
@@ -34,19 +35,35 @@ export class DynamicQuestionComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.question.type === 'checkbox') {
-      this.formControl = new FormControl([]);
+      this.formControl = new FormControl(this.prefilledAnswer || []);
 
       if (this.question.isAllowedSpecifyAnswer) {
-        this.otherFormControl = new FormControl('');
+        if (this.prefilledAnswer) {
+          const otherValue = (this.prefilledAnswer as string[]).find((it) =>
+            it.includes('Other -')
+          );
 
-        this.otherFormControl.valueChanges.pipe(debounceTime(300)).subscribe({
-          next: (value) => {
-            this.formControl.setValue([...this.formControl.value, value]);
-          },
-        });
+          if (otherValue) {
+            this.otherFormControl = new FormControl(otherValue);
+            this.innerIsShownOtherInput$.next(true);
+          }
+        }
+
+        this.otherFormControl = this.otherFormControl
+          ? this.otherFormControl
+          : new FormControl('');
+
+        this.otherFormControl.valueChanges
+          .pipe(debounceTime(300))
+          .pipe(map((it) => `Other - ${it}`))
+          .subscribe({
+            next: (value) => {
+              this.formControl.setValue([...this.formControl.value, value]);
+            },
+          });
       }
     } else {
-      this.formControl = new FormControl('');
+      this.formControl = new FormControl(this.prefilledAnswer || '');
     }
 
     this.formControl.valueChanges.subscribe({

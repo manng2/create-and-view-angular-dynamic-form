@@ -24,7 +24,10 @@ export class BuilderComponent implements OnInit, OnDestroy {
   private readonly complete$ = new Subject<void>();
   private readonly innerQuestions$ = new ReplaySubject<QuestionModel[]>(1);
 
+  private readonly innerPrefilledAnswers$ = new ReplaySubject<AnswerModel>(1);
+
   public questions$ = this.innerQuestions$.asObservable();
+  public prefilledAnswers$ = this.innerPrefilledAnswers$.asObservable();
 
   public constructor(
     private dialog: MatDialog,
@@ -40,6 +43,15 @@ export class BuilderComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (v) => {
           this.innerQuestions$.next(v);
+        },
+      });
+
+    this.answerService
+      .getAnswers()
+      .pipe(takeUntil(this.complete$))
+      .subscribe({
+        next: (v) => {
+          this.innerPrefilledAnswers$.next(v);
         },
       });
   }

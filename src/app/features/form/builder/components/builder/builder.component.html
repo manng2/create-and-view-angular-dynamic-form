@@ -3,6 +3,7 @@
     <div *ngFor="let question of questions$ | async">
       <app-dynamic-question
         [question]="question"
+        [prefilledAnswer]="(prefilledAnswers$ | async)![question.id]"
         (update)="onUpdateAnswer($event)"
       ></app-dynamic-question>
     </div>

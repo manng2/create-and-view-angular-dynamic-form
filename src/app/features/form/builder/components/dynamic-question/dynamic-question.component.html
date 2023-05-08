@@ -1,11 +1,13 @@
 <div>
   <h3>{{ question.question }}</h3>
-  <input
-    *ngIf="question.type === 'paragraph'"
-    matInput
-    [formControl]="formControl"
-    placeholder="Input your answer"
-  />
+  <mat-form-field *ngIf="question.type === 'paragraph'">
+    <input
+      matInput
+      [formControl]="formControl"
+      placeholder="Input your answer"
+    />
+  </mat-form-field>
+
   <div class="checkboxes">
     <mat-checkbox
       *ngFor="let checkbox of question!.answers"
@@ -18,10 +20,8 @@
       (change)="onHandleCheckbox($event, true)"
       >Other</mat-checkbox
     >
-    <input
-      matInput
-      *ngIf="isShownOtherInput$ | async"
-      [formControl]="otherFormControl!"
-    />
+    <mat-form-field *ngIf="isShownOtherInput$ | async">
+      <input matInput [formControl]="otherFormControl!" />
+    </mat-form-field>
   </div>
 </div>

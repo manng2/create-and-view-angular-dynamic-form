@@ -1,3 +1,29 @@
-@use "@angular/material" as mat
+@use '@angular/material' as mat
 
 @include mat.core()
+
+.mat-form-field
+  border: 2px solid #5d6584
+  border-radius: 4px
+  padding: 14px
+
+  &-wrapper
+    padding-bottom: 0 !important
+
+  &-infix
+    border: none !important
+
+  &:has(input:focus)
+    border-color: black
+
+  mat-label
+    color: black
+
+  input
+    background-color: transparent
+
+  mat-label
+    white-space: nowrap
+
+.mat-menu-panel
+  background-color: white
