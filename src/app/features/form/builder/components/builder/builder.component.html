@@ -8,6 +8,12 @@
       ></app-dynamic-question>
     </div>
   </div>
-  <button (click)="openAddQuestionModal()">Add new question</button>
-  <button (click)="navigateToReviewAnswers()">Review my answers</button>
+  <div class="buttons">
+    <button mat-raised-button (click)="openAddQuestionModal()">
+      Add new question
+    </button>
+    <button mat-button color="primary" (click)="navigateToReviewAnswers()">
+      Review my answers
+    </button>
+  </div>
 </section>

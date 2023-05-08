@@ -1,14 +1,21 @@
 <section>
-  <div>
-    <div *ngFor="let viewAnswer of viewAnswers$ | async">
+  <div class="list-view-answer">
+    <div class="view-answer" *ngFor="let viewAnswer of viewAnswers$ | async">
       <h3>{{ viewAnswer.question }}</h3>
-      <ng-container *ngIf="viewAnswer.isCheckbox">
-        <div *ngFor="let answer of viewAnswer.answer">{{ answer }}</div>
-      </ng-container>
+      <div class="checkboxes">
+        <ng-container *ngIf="viewAnswer.isCheckbox">
+          <div class="checkbox-answer" *ngFor="let answer of viewAnswer.answer">
+            {{ answer }}
+          </div>
+        </ng-container>
+      </div>
+
       <ng-container *ngIf="!viewAnswer.isCheckbox">
         <div>{{ viewAnswer.answer }}</div>
       </ng-container>
     </div>
   </div>
-  <button (click)="navigateToBuilder()">Back to builder</button>
+  <div class="buttons">
+    <button mat-button (click)="navigateToBuilder()">Back to builder</button>
+  </div>
 </section>

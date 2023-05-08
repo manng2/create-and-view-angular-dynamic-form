@@ -1,12 +1,6 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-add-question',
@@ -14,13 +8,13 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
   styleUrls: ['./form-add-question.component.sass'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FormAddQuestionComponent implements OnInit {
+export class FormAddQuestionComponent {
   public formGroup = new FormGroup({
     type: new FormControl('checkbox'),
     question: new FormControl('', Validators.required),
     answers: new FormArray([new FormControl('')]),
     isAllowedSpecifyAnswer: new FormControl(false),
-    isRequired: new FormControl(true),
+    isRequired: new FormControl(false),
   });
 
   get answerFormArray(): FormArray {
@@ -31,17 +25,8 @@ export class FormAddQuestionComponent implements OnInit {
     private dialogRef: MatDialogRef<FormAddQuestionComponent>
   ) {}
 
-  public ngOnInit(): void {
-    this.formGroup.valueChanges.subscribe(console.log);
-    // this.formGroup.controls.type.valueChanges.subscribe({
-    //   next: () => {
-
-    //   }
-    // })
-  }
-
   public addNewAnswer(): void {
-    if (this.answerFormArray.length === 5) {
+    if (this.answerFormArray.length === 4) {
       return;
     }
 

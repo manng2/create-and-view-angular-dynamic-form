@@ -27,12 +27,15 @@
       <span (click)="addNewAnswer()">+ Add new answer</span>
     </ng-container>
 
-    <mat-checkbox formControlName="isAllowedSpecifyAnswer">
+    <mat-checkbox
+      *ngIf="formGroup.controls.type.value === 'checkbox'"
+      formControlName="isAllowedSpecifyAnswer"
+    >
       Specify
     </mat-checkbox>
     <mat-checkbox formControlName="isRequired"> Required </mat-checkbox>
   </form>
   <div class="footer">
-    <button (click)="createQuestion()">Submit</button>
+    <button mat-button (click)="createQuestion()">Submit</button>
   </div>
 </section>

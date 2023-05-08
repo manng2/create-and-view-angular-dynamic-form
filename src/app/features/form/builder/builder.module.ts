@@ -9,6 +9,7 @@ import { FormAddQuestionComponent } from './components/form-add-question/form-ad
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatButtonModule } from '@angular/material/button';
 import { DynamicQuestionComponent } from './components/dynamic-question/dynamic-question.component';
 
 @NgModule({
@@ -26,6 +27,7 @@ import { DynamicQuestionComponent } from './components/dynamic-question/dynamic-
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
+    MatButtonModule,
   ],
 })
 export class BuilderModule {}

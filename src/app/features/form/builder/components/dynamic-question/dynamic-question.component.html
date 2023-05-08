@@ -8,15 +8,17 @@
     />
   </mat-form-field>
 
-  <div class="checkboxes">
+  <div *ngIf="question.type === 'checkbox'" class="checkboxes">
     <mat-checkbox
       *ngFor="let checkbox of question!.answers"
       (change)="onHandleCheckbox($event)"
+      [checked]="formControl.value.includes(checkbox)"
       [value]="checkbox"
       >{{ checkbox }}</mat-checkbox
     >
     <mat-checkbox
-      *ngIf="question.type === 'checkbox' && question.isAllowedSpecifyAnswer"
+      *ngIf="question.isAllowedSpecifyAnswer"
+      [checked]="isShownOtherInput$ | async"
       (change)="onHandleCheckbox($event, true)"
       >Other</mat-checkbox
     >

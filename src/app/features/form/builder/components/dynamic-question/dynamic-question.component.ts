@@ -6,10 +6,9 @@ import {
   OnInit,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { debounceTime, map, ReplaySubject, startWith } from 'rxjs';
-import { AnswerService } from 'src/app/services/answer.service';
 
 @Component({
   selector: 'app-dynamic-question',
@@ -35,35 +34,13 @@ export class DynamicQuestionComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.question.type === 'checkbox') {
-      this.formControl = new FormControl(this.prefilledAnswer || []);
-
-      if (this.question.isAllowedSpecifyAnswer) {
-        if (this.prefilledAnswer) {
-          const otherValue = (this.prefilledAnswer as string[]).find((it) =>
-            it.includes('Other -')
-          );
-
-          if (otherValue) {
-            this.otherFormControl = new FormControl(otherValue);
-            this.innerIsShownOtherInput$.next(true);
-          }
-        }
-
-        this.otherFormControl = this.otherFormControl
-          ? this.otherFormControl
-          : new FormControl('');
-
-        this.otherFormControl.valueChanges
-          .pipe(debounceTime(300))
-          .pipe(map((it) => `Other - ${it}`))
-          .subscribe({
-            next: (value) => {
-              this.formControl.setValue([...this.formControl.value, value]);
-            },
-          });
-      }
+      this.initCheckboxFormControl();
     } else {
       this.formControl = new FormControl(this.prefilledAnswer || '');
+    }
+
+    if (this.question.isRequired) {
+      this.formControl.addValidators(Validators.required);
     }
 
     this.formControl.valueChanges.subscribe({
@@ -101,6 +78,39 @@ export class DynamicQuestionComponent implements OnInit {
           )
         );
       }
+    }
+  }
+
+  private initCheckboxFormControl(): void {
+    this.formControl = new FormControl(this.prefilledAnswer || []);
+
+    if (this.question.isAllowedSpecifyAnswer) {
+      if (this.prefilledAnswer) {
+        const otherValue = (this.prefilledAnswer as string[]).find((it) =>
+          it.includes('Other -')
+        );
+
+        if (otherValue) {
+          this.otherFormControl = new FormControl(otherValue);
+          this.innerIsShownOtherInput$.next(true);
+        }
+      }
+
+      this.otherFormControl = this.otherFormControl
+        ? this.otherFormControl
+        : new FormControl('');
+
+      this.otherFormControl.valueChanges
+        .pipe(debounceTime(300))
+        .pipe(map((it) => `Other - ${it}`))
+        .subscribe({
+          next: (value) => {
+            const valueWithoutOther = (
+              this.formControl.value as string[]
+            ).filter((it) => !it.includes('Other -'));
+            this.formControl.setValue([...valueWithoutOther, value]);
+          },
+        });
     }
   }
 }
