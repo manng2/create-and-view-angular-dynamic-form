@@ -2,17 +2,22 @@
   <div class="list-view-answer">
     <div class="view-answer" *ngFor="let viewAnswer of viewAnswers$ | async">
       <h3>{{ viewAnswer.question }}</h3>
-      <div class="checkboxes">
-        <ng-container *ngIf="viewAnswer.isCheckbox">
-          <div class="checkbox-answer" *ngFor="let answer of viewAnswer.answer">
-            {{ answer }}
-          </div>
+      <div class="answer">
+        <div class="checkboxes">
+          <ng-container *ngIf="viewAnswer.isCheckbox">
+            <div
+              class="checkbox-answer"
+              *ngFor="let answer of viewAnswer.answer"
+            >
+              {{ answer }}
+            </div>
+          </ng-container>
+        </div>
+
+        <ng-container *ngIf="!viewAnswer.isCheckbox">
+          <div>{{ viewAnswer.answer }}</div>
         </ng-container>
       </div>
-
-      <ng-container *ngIf="!viewAnswer.isCheckbox">
-        <div>{{ viewAnswer.answer }}</div>
-      </ng-container>
     </div>
   </div>
   <div class="buttons">
