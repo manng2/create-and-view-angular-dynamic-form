@@ -1,0 +1,14 @@
+<section>
+  <div>
+    <div *ngFor="let viewAnswer of viewAnswers$ | async">
+      <h3>{{ viewAnswer.question }}</h3>
+      <ng-container *ngIf="viewAnswer.isCheckbox">
+        <div *ngFor="let answer of viewAnswer.answer">{{ answer }}</div>
+      </ng-container>
+      <ng-container *ngIf="!viewAnswer.isCheckbox">
+        <div>{{ viewAnswer.answer }}</div>
+      </ng-container>
+    </div>
+  </div>
+  <button (click)="navigateToBuilder()">Back to builder</button>
+</section>

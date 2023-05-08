@@ -1,0 +1,38 @@
+<section>
+  <h3>Add a New Questions</h3>
+  <form [formGroup]="formGroup">
+    <mat-form-field>
+      <mat-label> Pick question type </mat-label>
+      <mat-select formControlName="type">
+        <mat-option value="checkbox"> Checkbox </mat-option>
+        <mat-option value="paragraph"> Paragraph </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label> Question</mat-label>
+      <input matInput formControlName="question" />
+    </mat-form-field>
+    <ng-container
+      *ngIf="formGroup.controls.type.value === 'checkbox'"
+      formArrayName="answers"
+    >
+      <ng-container
+        *ngFor="let control of answerFormArray.controls; index as i"
+      >
+        <mat-form-field>
+          <mat-label>Answer</mat-label>
+          <input matInput [formControlName]="i" />
+        </mat-form-field>
+      </ng-container>
+      <span (click)="addNewAnswer()">+ Add new answer</span>
+    </ng-container>
+
+    <mat-checkbox formControlName="isAllowedSpecifyAnswer">
+      Specify
+    </mat-checkbox>
+    <mat-checkbox formControlName="isRequired"> Required </mat-checkbox>
+  </form>
+  <div class="footer">
+    <button (click)="createQuestion()">Submit</button>
+  </div>
+</section>

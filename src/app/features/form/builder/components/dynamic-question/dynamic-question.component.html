@@ -1,0 +1,27 @@
+<div>
+  <h3>{{ question.question }}</h3>
+  <input
+    *ngIf="question.type === 'paragraph'"
+    matInput
+    [formControl]="formControl"
+    placeholder="Input your answer"
+  />
+  <div class="checkboxes">
+    <mat-checkbox
+      *ngFor="let checkbox of question!.answers"
+      (change)="onHandleCheckbox($event)"
+      [value]="checkbox"
+      >{{ checkbox }}</mat-checkbox
+    >
+    <mat-checkbox
+      *ngIf="question.type === 'checkbox' && question.isAllowedSpecifyAnswer"
+      (change)="onHandleCheckbox($event, true)"
+      >Other</mat-checkbox
+    >
+    <input
+      matInput
+      *ngIf="isShownOtherInput$ | async"
+      [formControl]="otherFormControl!"
+    />
+  </div>
+</div>

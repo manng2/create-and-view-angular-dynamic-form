@@ -1,0 +1,12 @@
+<section>
+  <div>
+    <div *ngFor="let question of questions$ | async">
+      <app-dynamic-question
+        [question]="question"
+        (update)="onUpdateAnswer($event)"
+      ></app-dynamic-question>
+    </div>
+  </div>
+  <button (click)="openAddQuestionModal()">Add new question</button>
+  <button (click)="navigateToReviewAnswers()">Review my answers</button>
+</section>
